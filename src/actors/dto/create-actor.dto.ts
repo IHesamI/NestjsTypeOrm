@@ -1,1 +1,4 @@
-export class CreateActorDto {}
+export class CreateActorDto {
+    last_name:string
+    first_name:string
+}

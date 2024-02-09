@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateActorDto } from './dto/create-actor.dto';
 import { UpdateActorDto } from './dto/update-actor.dto';
 import { DataSource } from 'typeorm';
+import { Actors } from './entities/actor.entity';
 
 @Injectable()
 export class ActorsService {
@@ -9,11 +10,30 @@ export class ActorsService {
   constructor(private dataSource: DataSource) { }
 
   create(createActorDto: CreateActorDto) {
-    return 'This action adds a new actor';
+    try {
+      const { last_name, first_name } = createActorDto;
+      console.error(last_name, first_name);
+      const last_update = new Date().toISOString();
+      this.dataSource.manager
+        .createQueryBuilder()
+        .insert()
+        .into(Actors)
+        .values({
+          last_name,
+          first_name,
+          last_update,
+        })
+        .execute();
+
+      return true;
+    } catch {
+      throw new Error('internal server erorr');
+    }
+
   }
 
- async findAll() {
-    return `This action returns all actors`;
+  findAll(): Promise<Actors[]> {
+    return this.dataSource.manager.find(Actors);
   }
 
   findOne(id: number) {
