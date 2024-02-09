@@ -1,12 +1,15 @@
-import { Controller, Get, Post } from '@nestjs/common';
+import { Controller, Get, Ip, Post, Req } from '@nestjs/common';
+import { Request } from 'express';
 import { AppService } from './app.service';
+import { DataSource } from 'typeorm';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(private readonly appService: AppService, private dataSource: DataSource) {
+  }
 
   @Get()
-  getHello(): string {
+  getHello(@Ip() ip): string {
     return this.appService.getHello();
   }
 
