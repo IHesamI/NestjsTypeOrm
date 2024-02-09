@@ -8,15 +8,15 @@ export class PaymentsService {
     constructor(private dataSource: DataSource) { }
 
     async findAll() {
-        const results = await this.dataSource
-            .getRepository(Payments)
-            .createQueryBuilder()
-            .getMany();
-        // .createQueryBuilder()
-        // .select('payment')
-        // .from(Payments, 'payment')
-        // .getMany();
-        console.error(results);
+        // const results = await this.dataSource
+        //     .getRepository(Payments)
+        //     .createQueryBuilder()
+        //     .getMany();
+        // // .createQueryBuilder()
+        // // .select('payment')
+        // // .from(Payments, 'payment')
+        // // .getMany();
+        // console.error(results);
         return this.dataSource.manager.find(Payments);
     }
 

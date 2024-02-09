@@ -4,6 +4,8 @@ import { AppService } from './app.service';
 import { Payments as Payments_Entity } from './types/payment.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PaymentsModule } from './dvd/payments.module';
+import { Actors, Actors_info } from './actors/entities/actor.entity';
+import { ActorsModule } from './actors/actors.module';
 
 @Module({
   imports: [TypeOrmModule.forRoot(
@@ -14,10 +16,10 @@ import { PaymentsModule } from './dvd/payments.module';
       username: 'postgres',
       password: 'hesam',
       database: 'DVDRental',
-      entities:[Payments_Entity],
-      synchronize: false,
+      entities:[Payments_Entity,Actors,Actors_info],
+      synchronize: true,
     }
-  ),PaymentsModule],
+  ),PaymentsModule, ActorsModule],
   controllers: [AppController],
   providers: [AppService],
 })
