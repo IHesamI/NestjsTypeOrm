@@ -1,5 +1,5 @@
 import { ColumnNumericTransformer } from "src/utils/NumericTransformer";
-import { Column, Entity, JoinColumn, ManyToMany, PrimaryGeneratedColumn, RelationId } from "typeorm";
+import { Column, Entity, JoinColumn, JoinTable, ManyToMany, PrimaryGeneratedColumn, RelationId } from "typeorm";
 
 @Entity('films')
 export class Film {
@@ -53,27 +53,20 @@ export class Film {
     @Column({ type: 'tsvector' })
     fulltext: string;
 
-    @ManyToMany(type => Category, category => category.films, {
-        cascade: true
-    })
-    @JoinColumn({
-        name: "films_categories",
-        referencedColumnName:'categories',
-        foreignKeyConstraintName:'category_id'
-        // joinColumn: {
-        //     name: "films",
-        //     referencedColumnName: "film_id"
-        // },
-        // inverseJoinColumn: {
-        //     name: "category",
-        //     referencedColumnName: "category_id"
+    @ManyToMany(() => Category,
+        //  (category) => category.films, {
+        //     cascade: true
         // }
-    })
+        {
+            cascade: true
+        }
+    )
+    @JoinTable({ name: 'films_categories' })
     categories: Category[]
 
 }
 
-@Entity()
+@Entity('categories')
 export class Category {
     @PrimaryGeneratedColumn()
     category_id: number
@@ -84,8 +77,6 @@ export class Category {
     @Column({ type: "timestamp without time zone" })
     last_update: Date;
 
-    @ManyToMany(type => Film, film => film.categories)
-    films: Film[]
 }
 
 

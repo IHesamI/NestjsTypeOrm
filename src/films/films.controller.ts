@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { FilmsService } from './films.service';
 import { CreateFilmDto } from './dto/create-film.dto';
-import { UpdateFilmDto } from './dto/update-film.dto';
+import { updateFilmDto } from './dto/update-film.dto';
 
 @Controller('films')
 export class FilmsController {
@@ -23,7 +23,7 @@ export class FilmsController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateFilmDto: UpdateFilmDto) {
+  update(@Param('id') id: string, @Body() updateFilmDto: updateFilmDto) {
     return this.filmsService.update(+id, updateFilmDto);
   }
 

@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { CreateFilmDto } from './dto/create-film.dto';
-import { UpdateFilmDto } from './dto/update-film.dto';
+import { updateFilmDto } from './dto/update-film.dto';
 import { DataSource } from 'typeorm';
 import { Film } from './entities/film.entity';
-import { cateogryBuilder } from 'src/utils/CategoryBuilder';
+import { cateogryBuilder, saveCategories } from 'src/utils/CategoryBuilder';
 @Injectable()
 export class FilmsService {
 
@@ -11,28 +11,37 @@ export class FilmsService {
 
   async create(createFilmDto: CreateFilmDto) {
 
-    const categories = createFilmDto.categories;
-    const categoriesEntities = await cateogryBuilder(categories, this.datasource.manager);
-    const movie = this.datasource.manager.create(Film, { ...createFilmDto, categories: categoriesEntities });
-    console.error(movie);
-    
+    const { categories } = createFilmDto;
+    const categoriesEntities = cateogryBuilder(categories, this.datasource.manager);
+    // await saveCategories(categoriesEntities, this.datasource.manager);
+
+    const movie = this.datasource.manager.create(Film, {
+      ...createFilmDto,
+      categories: categoriesEntities,
+      last_update: (new Date()).toISOString()
+    });
+
     await this.datasource.manager.save(movie);
 
   }
 
-  findAll() {
-    return `This action returns all films`;
+  async findAll() {
+    return await this.datasource.manager.find(Film, {
+      relations: {
+        categories: true
+      }
+    });
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} film`;
+    return this.datasource.manager.findOneBy(Film, { film_id: id });
   }
 
-  update(id: number, updateFilmDto: UpdateFilmDto) {
-    return `This action updates a #${id} film`;
+  async update(id: number, updateFilmDto: updateFilmDto) {
+    return await this.datasource.manager.update(Film, { film_id: id }, updateFilmDto);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} film`;
+  async remove(id: number) {
+    return await this.datasource.manager.delete(Film, { film_id: id });
   }
 }
