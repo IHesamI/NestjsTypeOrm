@@ -9,3 +9,12 @@ export async function cateogryBuilder(categories: string[], manager: EntityManag
     );
     return Promise.all(promsies);
 }
+
+export function catBuilder(categories: string[]) {
+    return categories.map(category => {
+        const categoryEntity = new Category()
+        categoryEntity.name = category
+        categoryEntity.last_update = new Date()
+        return categoryEntity;
+    })
+}

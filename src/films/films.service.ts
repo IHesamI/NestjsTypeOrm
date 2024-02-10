@@ -14,6 +14,8 @@ export class FilmsService {
     const categories = createFilmDto.categories;
     const categoriesEntities = await cateogryBuilder(categories, this.datasource.manager);
     const movie = this.datasource.manager.create(Film, { ...createFilmDto, categories: categoriesEntities });
+    console.error(movie);
+    
     await this.datasource.manager.save(movie);
 
   }

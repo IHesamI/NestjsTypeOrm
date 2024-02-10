@@ -56,7 +56,19 @@ export class Film {
     @ManyToMany(type => Category, category => category.films, {
         cascade: true
     })
-    @JoinColumn()
+    @JoinColumn({
+        name: "films_categories",
+        referencedColumnName:'categories',
+        foreignKeyConstraintName:'category_id'
+        // joinColumn: {
+        //     name: "films",
+        //     referencedColumnName: "film_id"
+        // },
+        // inverseJoinColumn: {
+        //     name: "category",
+        //     referencedColumnName: "category_id"
+        // }
+    })
     categories: Category[]
 
 }
