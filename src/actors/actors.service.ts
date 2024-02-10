@@ -12,19 +12,14 @@ export class ActorsService {
   create(createActorDto: CreateActorDto) {
     try {
       const { last_name, first_name } = createActorDto;
-      console.error(last_name, first_name);
       const last_update = new Date().toISOString();
-      this.dataSource.manager
-        .createQueryBuilder()
-        .insert()
-        .into(Actors)
-        .values({
+      const actor = this.dataSource.manager
+        .create(Actors, {
           last_name,
           first_name,
           last_update,
-        })
-        .execute();
-
+        });
+      this.dataSource.manager.save(actor);
       return true;
     } catch {
       throw new Error('internal server erorr');
@@ -36,15 +31,21 @@ export class ActorsService {
     return this.dataSource.manager.find(Actors);
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} actor`;
+  async findById(id: number) {
+    const result = await this.dataSource.manager
+      .findOneBy(Actors, {
+        actor_id: id
+      });
+    return result;
   }
 
   update(id: number, updateActorDto: UpdateActorDto) {
-    return `This action updates a #${id} actor`;
+    return this.dataSource.manager
+      .update(Actors, { actor_id: id }, updateActorDto);
+
   }
 
   remove(id: number) {
-    return `This action removes a #${id} actor`;
+    return this.dataSource.manager.delete(Actors, { actor_id: id });
   }
 }

@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Res, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Res, HttpStatus, Query } from '@nestjs/common';
 import { ActorsService } from './actors.service';
 import { CreateActorDto } from './dto/create-actor.dto';
 import { UpdateActorDto } from './dto/update-actor.dto';
@@ -20,23 +20,37 @@ export class ActorsController {
     }
   }
 
-  @Get()
-  async findAll() {
-    return await this.actorsService.findAll();
+  // @Get('/:id')
+  // async findbyId(@Param('id') id: string) {
+  //   console.error('here in findbyid');
+
+  //   return await this.actorsService.findAll();
+  // }
+
+  @Get('/')
+  async findAll(@Query('id') id: string) {
+    if (id) {
+      return await this.actorsService.findById(+id);
+    }
+
+    else {
+
+      return await this.actorsService.findAll();
+    }
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.actorsService.findOne(+id);
+    return this.actorsService.findById(+id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateActorDto: UpdateActorDto) {
-    return this.actorsService.update(+id, updateActorDto);
+  async update(@Param('id') id: string, @Body() updateActorDto: UpdateActorDto) {
+    return await this.actorsService.update(+id, updateActorDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.actorsService.remove(+id);
+  async remove(@Param('id') id: string) {
+    return await this.actorsService.remove(+id);
   }
 }
