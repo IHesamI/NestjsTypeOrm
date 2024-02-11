@@ -10,7 +10,6 @@ export class FilmsService {
   constructor(private datasource: DataSource) { }
 
   async create(createFilmDto: CreateFilmDto) {
-
     const { categories } = createFilmDto;
     const categoriesEntities = cateogryBuilder(categories, this.datasource.manager);
     // await saveCategories(categoriesEntities, this.datasource.manager);
