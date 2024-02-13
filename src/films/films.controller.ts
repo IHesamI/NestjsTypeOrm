@@ -1,18 +1,20 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Request, Res, HttpStatus, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from '@nestjs/common';
 import { FilmsService } from './films.service';
-import { CreateFilmDto } from './dto/create-film.dto';
+import { CreateFilmDto,LangsCreateDto } from './dto/create-film.dto';
 import { updateFilmDto } from './dto/update-film.dto';
-import { Response } from 'express';
 
 @Controller('films')
 export class FilmsController {
   constructor(private readonly filmsService: FilmsService) { }
 
   @Post()
-  // @Validation('createFilm')
   create(@Body() createFilmDto: CreateFilmDto,) {
-    // return this.filmsService.create(createFilmDto);
-    return;
+    return this.filmsService.create(createFilmDto);
+  }
+
+  @Post(':language')
+  createLangs(@Body() createFilmDto: LangsCreateDto,) {
+    return this.filmsService.createLang(createFilmDto);
   }
 
   @Get()
@@ -21,7 +23,7 @@ export class FilmsController {
   }
 
   @Get(':id')
-  findOne(@Param('id',ParseIntPipe) id: string) {
+  findOne(@Param('id', ParseIntPipe) id: string) {
     return this.filmsService.findOne(+id);
   }
 

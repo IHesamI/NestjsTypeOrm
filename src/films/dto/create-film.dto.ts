@@ -5,7 +5,7 @@ export class CreateFilmDto {
     title: string;
     descriptions: string;
     release_year: number;
-    language_id: number;
+    languages: string[];
     rental_duration: number;
     rental_rate: number;
     @IsNotEmpty()
@@ -31,4 +31,9 @@ export class UpdateFilmType {
     special_feature: string[]
     fulltext: string;
     categories: Category[]
+}
+
+
+export class LangsCreateDto {
+    name: string;
 }

@@ -8,7 +8,9 @@ import { Actors, Actors_info } from './actors/entities/actor.entity';
 import { ActorsModule } from './actors/actors.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { FilmsModule } from './films/films.module';
-import { Category, Film, Language } from './films/entities/film.entity';
+import { Category, Film } from './films/entities/film.entity';
+import Language from './films/entities/language.entity';
+
 @Module({
   imports: [
     ConfigModule.forRoot({
