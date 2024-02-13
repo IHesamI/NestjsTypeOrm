@@ -8,7 +8,7 @@ import { Actors, Actors_info } from './actors/entities/actor.entity';
 import { ActorsModule } from './actors/actors.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { FilmsModule } from './films/films.module';
-import { Category, Film } from './films/entities/film.entity';
+import { Category, Film, Language } from './films/entities/film.entity';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -24,7 +24,7 @@ import { Category, Film } from './films/entities/film.entity';
       username: configService.get<string>('DATABASE_USER'),
       password: configService.get<string>('DATABASE_PASSWORD'),
       database: configService.get<string>('DATABASE_DATBASE'),
-      entities:[Payments_Entity,Actors,Actors_info,Film,Category],
+      entities:[Payments_Entity,Actors,Actors_info,Language,Film,Category],
       synchronize: true,
       }),
       inject: [ConfigService],

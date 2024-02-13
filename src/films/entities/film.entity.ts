@@ -1,6 +1,20 @@
 import { ColumnNumericTransformer } from "src/utils/NumericTransformer";
 import { Column, Entity, JoinColumn, JoinTable, ManyToMany, PrimaryGeneratedColumn, RelationId } from "typeorm";
 
+
+@Entity('languages')
+export class Language {
+    @PrimaryGeneratedColumn()
+    language_id: number;
+
+    @Column({ type: 'varchar', length: '45' })
+    name: string;
+
+    @Column()
+    last_update: Date;
+
+}
+
 @Entity('films')
 export class Film {
     @PrimaryGeneratedColumn()
@@ -16,8 +30,12 @@ export class Film {
     release_year: number;
 
 
-    @Column({ type: "smallint" })
-    language_id: number;
+    // @Column({ type: "smallint" })
+    // language_id: number;
+
+    @ManyToMany(() => Language)
+    @JoinColumn({referencedColumnName:'language_id'})
+    languages: Language
 
     @Column({ type: "smallint" })
     rental_duration: number;
@@ -54,9 +72,6 @@ export class Film {
     fulltext: string;
 
     @ManyToMany(() => Category,
-        //  (category) => category.films, {
-        //     cascade: true
-        // }
         {
             cascade: true
         }
@@ -64,6 +79,9 @@ export class Film {
     @JoinTable({ name: 'films_categories' })
     categories: Category[]
 
+    // @ManyToMany(() => Language,)
+    // @JoinTable()
+    // languages: Language
 }
 
 @Entity('categories')

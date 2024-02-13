@@ -1,8 +1,7 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Request, Res, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Request, Res, HttpStatus, ParseIntPipe } from '@nestjs/common';
 import { FilmsService } from './films.service';
 import { CreateFilmDto } from './dto/create-film.dto';
 import { updateFilmDto } from './dto/update-film.dto';
-import { Autheticator } from 'src/utils/authDecorators';
 import { Response } from 'express';
 
 @Controller('films')
@@ -10,11 +9,9 @@ export class FilmsController {
   constructor(private readonly filmsService: FilmsService) { }
 
   @Post()
-  @Autheticator() 
-  create(@Body() createFilmDto: CreateFilmDto,@Res() res:Response) {
+  // @Validation('createFilm')
+  create(@Body() createFilmDto: CreateFilmDto,) {
     // return this.filmsService.create(createFilmDto);
-    console.error('iam in the create',res);
-    res.status(HttpStatus.OK).send();
     return;
   }
 
@@ -24,7 +21,7 @@ export class FilmsController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id',ParseIntPipe) id: string) {
     return this.filmsService.findOne(+id);
   }
 

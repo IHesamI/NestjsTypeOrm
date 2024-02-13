@@ -1,3 +1,4 @@
+import { IsEmail, IsNotEmpty } from "class-validator";
 import { Category } from "../entities/film.entity";
 
 export class CreateFilmDto {
@@ -7,6 +8,7 @@ export class CreateFilmDto {
     language_id: number;
     rental_duration: number;
     rental_rate: number;
+    @IsNotEmpty()
     length: number;
     replacement_cost: number;
     rating: string;
