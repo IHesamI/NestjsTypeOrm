@@ -1,7 +1,10 @@
 import { ColumnNumericTransformer } from "src/utils/NumericTransformer";
-import { Column, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import Language from "./language.entity";
-
+import { Actor } from "src/actors/entities/actor.entity";
+import { Inventory } from "src/types/Inventory.entity";
+import { Store } from "src/staff/entities/store.entity";
+Actor
 @Entity('films')
 export class Film {
     @PrimaryGeneratedColumn()
@@ -62,9 +65,12 @@ export class Film {
     @JoinTable({ name: 'films_categories' })
     categories: Category[]
 
-    // @ManyToMany(() => Language,)
-    // @JoinTable()
-    // languages: Language
+    @ManyToMany(() => Actor)
+    actor: Actor
+
+    @OneToOne(() => Inventory)
+    inventory: Inventory;
+
 }
 
 

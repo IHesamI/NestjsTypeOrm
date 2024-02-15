@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateActorDto } from './dto/create-actor.dto';
 import { UpdateActorDto } from './dto/update-actor.dto';
 import { DataSource } from 'typeorm';
-import { Actors } from './entities/actor.entity';
+import { Actor } from './entities/actor.entity';
 
 @Injectable()
 export class ActorsService {
@@ -14,7 +14,7 @@ export class ActorsService {
       const { last_name, first_name } = createActorDto;
       const last_update = new Date().toISOString();
       const actor = this.dataSource.manager
-        .create(Actors, {
+        .create(Actor, {
           last_name,
           first_name,
           last_update,
@@ -27,13 +27,13 @@ export class ActorsService {
 
   }
 
-  findAll(): Promise<Actors[]> {
-    return this.dataSource.manager.find(Actors);
+  findAll(): Promise<Actor[]> {
+    return this.dataSource.manager.find(Actor);
   }
 
   async findById(id: number) {
     const result = await this.dataSource.manager
-      .findOneBy(Actors, {
+      .findOneBy(Actor, {
         actor_id: id
       });
     return result;
@@ -41,11 +41,11 @@ export class ActorsService {
 
   update(id: number, updateActorDto: UpdateActorDto) {
     return this.dataSource.manager
-      .update(Actors, { actor_id: id }, updateActorDto);
+      .update(Actor, { actor_id: id }, updateActorDto);
 
   }
 
   remove(id: number) {
-    return this.dataSource.manager.delete(Actors, { actor_id: id });
+    return this.dataSource.manager.delete(Actor, { actor_id: id });
   }
 }
