@@ -1,9 +1,7 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { Payments as Payments_Entity } from './types/payment.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { PaymentsModule } from './dvd/payments.module';
 import { Actor, Actors_info } from './actors/entities/actor.entity';
 import { ActorsModule } from './actors/actors.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -18,6 +16,10 @@ import { Country } from './types/country.entity';
 import { Store } from './staff/entities/store.entity';
 import { Inventory } from './types/Inventory.entity';
 import { CustomersModule } from './customers/customers.module';
+import { PaymentsModule } from './payments/payments.module';
+import { Rental } from './types/rental.entity';
+import { Customer } from './customers/entities/customer.entity';
+import { Payment } from './payments/entities/payment.entity';
 
 @Module({
   imports: [
@@ -35,12 +37,12 @@ import { CustomersModule } from './customers/customers.module';
           username: configService.get<string>('DATABASE_USER'),
           password: configService.get<string>('DATABASE_PASSWORD'),
           database: configService.get<string>('DATABASE_DATBASE'),
-          entities: [Payments_Entity, Actor, Actors_info, Language, Film, Category, Staff, Address, City, Country, Store,Inventory],
+          entities: [Actor, Actors_info, Language, Film, Category, Staff, Address, City, Country, Store,Inventory ,Rental,Customer,Payment],
           synchronize: true,
         }),
         inject: [ConfigService],
       }
-    ), PaymentsModule, ActorsModule, FilmsModule, StaffModule, CustomersModule],
+    ), ActorsModule, FilmsModule, StaffModule, CustomersModule, PaymentsModule],
   controllers: [AppController],
   providers: [AppService],
 })
